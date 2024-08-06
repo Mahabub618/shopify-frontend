@@ -1,0 +1,41 @@
+<div class="login-container">
+  <div class="left-container">
+    <img src="assets/images/login_background_img.svg">
+  </div>
+  <div class="thin-border"></div>
+  <div class="right-container">
+    <div class="right-container-box">
+      <span class="login-header-text">Login to your account!</span>
+      <form [formGroup]="loginForm" class="form-container">
+        <span class="email-header-text">Email Address</span>
+        <div class="email-container">
+          <img src="assets/icon/email.svg">
+          <input type="email" name="email" autocomplete="new-email" formControlName="email" placeholder="Enter your email address" class="email-box">
+        </div>
+        <span class="password-header-text">Password</span>
+        <div class="password-container">
+          <img src="assets/icon/padlock.svg">
+          <input [type]="passwordInputType" name="password" autocomplete="new-password" formControlName="password" placeholder="Enter you password" class="email-box password-color">
+          <img [src]="eyeIconSrc" (click)="toggleShowPassword()" class="cursor-pointer">
+        </div>
+        <div class="checkbox-and-password-container">
+          <div class="checkbox-container">
+            <input type="checkbox" class="custom-checkbox" formControlName="rememberMe">
+            <span class="checkbox-text">Keep me signed in</span>
+          </div>
+          <div class="forget-password-container">
+            <span class="checkbox-text" (click)="forgetPassword()">Forgot password?</span>
+          </div>
+        </div>
+        <button class="login-button" (click)="onNext()" [class.disabled-button]="showProgress">
+          <span *ngIf="!showProgress" class="login-text">Login</span>
+          <div class="spinner" *ngIf="showProgress"></div>
+        </button>
+      </form>
+      <div class="divider">
+        <span class="divider-text">Don’t have an account?</span>
+        <span class="sign-up cursor-pointer" (click)="onSignUp()">Sign Up</span>
+      </div>
+    </div>
+  </div>
+</div>

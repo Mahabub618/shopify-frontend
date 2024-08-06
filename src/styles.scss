@@ -1,0 +1,29 @@
+ion-modal.login-modal::part(content) {
+  border-radius: var(--border-radius);
+  --width: 90% !important;
+  --height: 90% !important;
+  --max-height: calc(min(520px, 66.3vh)) !important;
+  --min-width: calc(min(720px, 60vw)) !important;
+  --max-width: calc(min(720px, 60vw)) !important;
+  --border-width: 435px;
+  --border-radius: 24px;
+
+
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+  background: asset-url('assets/icon/padlock.svg') no-repeat center center / cover;
+  box-shadow: var(--box-shadow);
+  overflow: var(--overflow);
+  z-index: 10;
+}
+ion-modal.login-modal {
+  backdrop-filter: blur(4px) !important;
+  --backdrop-filter: blur(4px) !important;
+}
+button {
+  border: none;
+  outline: none;
+}
+.cursor-pointer {
+  cursor: pointer;
+}

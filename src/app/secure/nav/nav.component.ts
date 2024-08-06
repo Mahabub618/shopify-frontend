@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ModalController} from "@ionic/angular";
 
 @Component({
   selector: 'app-nav',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
+  constructor(private modalController: ModalController) {
+  }
+  ngOnInit() {
 
+  }
 }
