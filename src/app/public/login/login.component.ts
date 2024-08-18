@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
     if (this.showProgress) {
       return;
     }
+    console.log('#255 Login', this.loginForm);
     this.showProgress = true;
     if (this.emailID && this.password) {
       this.http.post('http://localhost:3000/api/admin/login', {

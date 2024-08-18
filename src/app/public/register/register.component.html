@@ -1,1 +1,28 @@
-<p>register works!</p>
+<div class="body">
+  <div class="wrapper">
+    <form [formGroup]="signupForm" class="form-container">
+      <h1>Register</h1>
+      <div class="input-box">
+        <input type="text" formControlName="firstName" placeholder="First Name">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="text" formControlName="lastName" placeholder="Last Name">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="email" name="email" formControlName="email" placeholder="Email">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input [type]="passwordInputType" name="password" formControlName="password" placeholder="Password">
+        <img [src]="eyeIconSrc" (click)="toggleShowPassword()" class="cursor-pointer">
+      </div>
+      <div class="input-box">
+        <input [type]="passwordInputType" name="password" formControlName="confirmPassword" placeholder="Confirm Password">
+        <img [src]="eyeIconSrc" (click)="toggleShowPassword()" class="cursor-pointer">
+      </div>
+      <button type="submit" class="btn" (click)="onNext()">Register</button>
+    </form>
+  </div>
+</div>
