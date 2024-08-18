@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,11 +13,12 @@ export class LoginComponent implements OnInit {
   showProgress: boolean = false;
   loginForm: FormGroup;
   passwordInputType: string = 'password';
-  eyeIconSrc: string = 'assets/icon/eye_icon.svg';
+  eyeIconSrc: string = 'assets/icon/lockClose.svg';
   constructor(
     private toastController: ToastController,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -34,30 +36,18 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.showProgress = true;
-    // if (this.emailID && this.password) {
-    //   this.authService.loginSms(this.emailID, this.password).then((res: any) => {
-    //     if(res && res.success)
-    //     {
-    //       this.authService.keepSignedIn = this.rememberMe;
-    //       this.authService.cookie = res.cookie;
-    //       this.showProgress = false;
-    //       this.router.navigate(['/otp'], {queryParams: {email: this.emailID}});
-    //     }
-    //     else {
-    //       this.presentToast();
-    //     }
-    //   })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     })
-    //     .finally(() => {
-    //       this.showProgress = false;
-    //     });
-    // }
-    // else {
-    //   this.showProgress = false;
-    //   this.presentToast();
-    // }
+    if (this.emailID && this.password) {
+      this.http.post('http://localhost:3000/api/admin/login', {
+        email: this.emailID,
+        password: this.password
+      }, {withCredentials: true}).subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    }
+    else {
+      this.showProgress = false;
+      this.presentToast();
+    }
 
   }
   get emailID() {
@@ -79,7 +69,7 @@ export class LoginComponent implements OnInit {
   }
   toggleShowPassword() {
     this.passwordInputType = this.passwordInputType === 'password' ? 'text' : 'password';
-    this.eyeIconSrc = this.eyeIconSrc === 'assets/icon/eye_icon.svg' ? 'assets/icon/eye-off.svg' : 'assets/icon/eye_icon.svg';
+    this.eyeIconSrc = this.eyeIconSrc === 'assets/icon/lockClose.svg' ? 'assets/icon/lockOpen.svg' : 'assets/icon/lockClose.svg';
   }
   forgetPassword() {
     // this.router.navigate(['/forget-password']);

@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import {RouterOutlet} from "@angular/router";
 import {IonicModule} from "@ionic/angular";
 import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -19,7 +20,8 @@ import {ReactiveFormsModule} from "@angular/forms";
         CommonModule,
         RouterOutlet,
         IonicModule.forRoot(),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+      HttpClientModule
     ]
 })
 export class PublicModule { }
