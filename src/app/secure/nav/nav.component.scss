@@ -99,11 +99,13 @@
   padding-left: 30px;
 }
 .menu-bar {
+  position: relative;
   max-width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
 }
 .truncate-text {
   white-space: nowrap;
@@ -113,5 +115,34 @@
 .right-buttons {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 25px;
+}
+.menu-bar:hover .dropdown-menu{
+  display: block;
+  left: -40%;
+  top: 100%;
+  background-color: black;
+}
+.dropdown-menu ul {
+  display: block;
+  list-style-type: none;
+  margin: 10px;
+  padding: 0;
+}
+.dropdown-menu ul li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  width: 135px;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: color 0.5s ease;
+}
+.dropdown-menu ul li:hover {
+  color: aqua;
+}
+.dropdown-menu ul li i {
+  color: white;
 }

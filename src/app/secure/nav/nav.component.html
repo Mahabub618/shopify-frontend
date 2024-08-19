@@ -24,6 +24,14 @@
         <div class="menu-bar">
           <img src="assets/icon/profile.svg">
           <span *ngIf="user" class="truncate-text">{{user.firstName}}</span>
+          <div class="dropdown-menu">
+            <ul>
+              <li><i class='bx bxs-user'></i>My profile</li>
+              <li><i class='bx bx-cart-download'></i>Orders</li>
+              <li><i class='bx bx-list-ul' ></i>Wishlist</li>
+              <li><i class='bx bx-log-out' ></i>Sign Out</li>
+            </ul>
+          </div>
         </div>
         <img src="assets/icon/cart.svg">
       </div>
