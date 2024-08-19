@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {ModalController} from "@ionic/angular";
+import {User} from "../../interfaces/user";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: 'app-nav',
@@ -7,9 +8,12 @@ import {ModalController} from "@ionic/angular";
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
-  constructor(private modalController: ModalController) {
+  user: User;
+  constructor(private apiService: ApiService) {
   }
   ngOnInit() {
-
+    this.apiService.user().subscribe((user: User) => {
+      this.user = user;
+    })
   }
 }
