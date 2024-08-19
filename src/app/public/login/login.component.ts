@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../services/auth.service";
 @Component({
   selector: 'app-login',
@@ -19,7 +18,6 @@ export class LoginComponent implements OnInit {
     private toastController: ToastController,
     private router: Router,
     private fb: FormBuilder,
-    private http: HttpClient,
     private authService: AuthService
   ) { }
 
