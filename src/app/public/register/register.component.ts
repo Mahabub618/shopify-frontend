@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,8 @@ export class RegisterComponent implements OnInit{
   constructor(private toastController: ToastController,
               private router: Router,
               private fb: FormBuilder,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private authService: AuthService) {
   }
   ngOnInit() {
     this.createSignUpForm();
@@ -38,21 +40,17 @@ export class RegisterComponent implements OnInit{
     }
     this.showProgress = true;
     if (this.emailID && this.password && this.password === this.confirmPassword) {
-      this.http.post('http://localhost:3000/api/admin/register', {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.emailID,
-        password: this.password,
-        confirmPassword: this.confirmPassword
-      }).subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.authService.register(this.firstName, this.lastName, this.emailID, this.password, this.confirmPassword)
+        .then((res) => {
+          this.router.navigate(['/login']);
+        }).catch((error) => {
+          console.log(error);
+      })
     }
     else {
       this.showProgress = false;
       this.presentToast();
     }
-
   }
   get firstName() {
     return this.signupForm.value.firstName;

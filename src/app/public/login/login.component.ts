@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {AuthService} from "../services/auth.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private toastController: ToastController,
     private router: Router,
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -35,15 +37,14 @@ export class LoginComponent implements OnInit {
     if (this.showProgress) {
       return;
     }
-    console.log('#255 Login', this.loginForm);
     this.showProgress = true;
     if (this.emailID && this.password) {
-      this.http.post('http://localhost:3000/api/admin/login', {
-        email: this.emailID,
-        password: this.password
-      }, {withCredentials: true}).subscribe(() => {
+      this.authService.login(this.emailID, this.password).then((res: any) => {
         this.router.navigate(['/']);
-      });
+      }).catch((error) => {
+        this.showProgress = false;
+        console.warn(error);
+      })
     }
     else {
       this.showProgress = false;
