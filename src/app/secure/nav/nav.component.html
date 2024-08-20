@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="right-buttons">
-        <div class="menu-bar">
+        <div class="menu-bar" [ngStyle]="{'width': user ? 'auto' : '65px'}">
           <img src="assets/icon/profile.svg">
           <span *ngIf="user" class="truncate-text">{{user.firstName}}</span>
           <div class="dropdown-menu">
