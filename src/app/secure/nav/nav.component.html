@@ -12,12 +12,17 @@
       <div class="search-box">
         <div class="search-box-row">
           <div class="search-textarea-dimension">
-            <textarea class="search-text-area" placeholder="Search for products..."></textarea>
+            <textarea (focus)="onTextareaFocus()" (blur)="onTextareaBlur($event)" (input)="onInputChange($event)" class="search-text-area" placeholder="Search for products..."></textarea>
           </div>
           <div class="vertical-border"></div>
           <div class="search-button-dimension">
             <img src="../../../assets/icon/search.svg">
           </div>
+        </div>
+        <div #searchList class="search-list" >
+          <ul *ngFor="let item of list" style="background: green; border-radius: 15px;">
+            <li (click)="onProductSelect(item)">{{item}}</li>
+          </ul>
         </div>
       </div>
       <div class="right-buttons">
