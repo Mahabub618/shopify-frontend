@@ -60,6 +60,10 @@ export class AuthService {
     return parseInt(userId ?? '0', 10);
   }
 
+  public clearAll() {
+    this.cookieService.deleteAll(environment.cookieOptions.path);
+    sessionStorage.clear();
+  }
 
   public Login(email: string, password: string): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/ambassador/login`, { email, password }, {withCredentials: true})

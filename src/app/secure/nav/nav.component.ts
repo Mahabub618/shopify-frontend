@@ -46,6 +46,7 @@ export class NavComponent {
   }
   logout() {
     this.apiService.signOut().subscribe((data) => {
+      this.authService.clearAll();
       this.router.navigate(['/login']);
     })
   }
