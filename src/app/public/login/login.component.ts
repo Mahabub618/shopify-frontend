@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
+import { User } from 'src/app/interfaces/user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -37,18 +38,22 @@ export class LoginComponent implements OnInit {
     }
     this.showProgress = true;
     if (this.emailID && this.password) {
-      this.authService.login(this.emailID, this.password).then((res: any) => {
+      this.authService.Login(this.emailID, this.password).subscribe( (userInfo: User) => {
+        this.setUserInfoInStorage(userInfo);
         this.router.navigate(['/']);
-      }).catch((error) => {
-        this.showProgress = false;
-        console.warn(error);
-      })
+      });
     }
     else {
       this.showProgress = false;
       this.presentToast();
     }
 
+  }
+  setUserInfoInStorage(userInfo: User) {
+    this.authService.keepSignedIn = this.rememberMe;
+    this.authService.firstName = userInfo.firstName;
+    this.authService.lastName = userInfo.lastName;
+    this.authService.userRole = userInfo.isAmbassador ? 'ambassador' : 'admin';
   }
   get emailID() {
     return this.loginForm.value.email;

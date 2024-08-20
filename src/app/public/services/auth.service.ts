@@ -1,33 +1,76 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import { throwError } from 'rxjs';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {catchError, Observable, throwError} from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { User } from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  apiUrl = `${environment.apiUrl}/api`
-  constructor(private http: HttpClient) { }
+  apiUrl = `${environment.apiUrl}/api`;
+  private useSessionStorage: boolean = false;
 
-  public async login(email:string, password:string) {
-    try {
-      return await this.http.post(`${this.apiUrl}/ambassador/login`, {
-        email,
-        password
-      }, { withCredentials: true }).toPromise();
-    } catch (error: any) {
-      if (error.status === 401) {
-        return await this.http.post(`${this.apiUrl}/admin/login`, {
-          email,
-          password
-        }, { withCredentials: true }).toPromise();
-      }
-      else {
-        return throwError(error);
-      }
-    }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
+
+  public set keepSignedIn(value: boolean) {
+    this.useSessionStorage = value;
+  }
+
+  public setItem(key: string, value: string) {
+    this.useSessionStorage ? sessionStorage.setItem(key, value) : this.cookieService.set(key, value, environment.cookieOptions);
+  }
+
+  private getItem(key: string): string {
+    return  sessionStorage.getItem(key) || this.cookieService.get(key);
+  }
+
+  public set userRole(value: string) {
+    this.setItem('role', value);
+  }
+
+  public get userRole(): string {
+    return this.getItem('role');
+  }
+
+  public set firstName(value: string) {
+    this.setItem('firstName', value);
+  }
+
+  public get firstName(): string {
+    return this.getItem('firstName');
+  }
+
+  public set lastName(value: string) {
+    this.setItem('lastName', value);
+  }
+
+  public get lastName(): string {
+    return this.getItem('lastName');
+  }
+
+  public set id(value: string) {
+    this.setItem('id', value);
+  }
+
+  public get id(): number {
+    const userId = this.getItem('id');
+    return parseInt(userId ?? '0', 10);
+  }
+
+
+  public Login(email: string, password: string): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/ambassador/login`, { email, password }, {withCredentials: true})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          return this.http.post<User>(`${this.apiUrl}/admin/login`, { email, password }, {withCredentials: true});
+        } else {
+          return throwError(() => error);
+        }
+      }));
   }
 
   public register(firstName: string, lastName: string, email: string, password: string, confirmPassword: string, admin?:boolean) {

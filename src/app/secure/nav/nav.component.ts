@@ -1,6 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {User} from "../../interfaces/user";
 import {ApiService} from "../../services/api.service";
+import {Router} from "@angular/router";
+import {AuthService} from "../../public/services/auth.service";
 
 @Component({
   selector: 'app-nav',
@@ -9,14 +10,13 @@ import {ApiService} from "../../services/api.service";
 })
 export class NavComponent {
   @ViewChild('searchList') searchList: ElementRef;
-  user: User;
   list: any = [];
-  constructor(private apiService: ApiService) {
+  userName: string;
+  constructor(private apiService: ApiService, private router: Router, private authService: AuthService) {
   }
+
   ngOnInit() {
-    this.apiService.user().subscribe((user: User) => {
-      this.user = user;
-    })
+    this.userName = this.authService.firstName;
   }
   onTextareaFocus() {
     // console.log('#255 searchList is focused');
@@ -43,5 +43,10 @@ export class NavComponent {
   }
   onProductSelect(product: any) {
     // console.log('#255 product', product);
+  }
+  logout() {
+    this.apiService.signOut().subscribe((data) => {
+      this.router.navigate(['/login']);
+    })
   }
 }

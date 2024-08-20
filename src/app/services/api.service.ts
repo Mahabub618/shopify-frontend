@@ -3,6 +3,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../interfaces/user";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../environments/environment";
+import {AuthService} from "../public/services/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +11,10 @@ import {environment} from "../../environments/environment";
 export class ApiService {
 
   apiUrl = `${environment.apiUrl}/api`
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  public user(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/ambassador/user`, { withCredentials: true }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          return this.http.get<User>(`${this.apiUrl}/admin/user`, { withCredentials: true });
-        } else {
-          return throwError(() => error);
-        }
-      })
-    );
+  public signOut() {
+    const role = this.authService.userRole;
+    return this.http.post(`${this.apiUrl}/${role}/logout`, {}, { withCredentials: true });
   }
 }

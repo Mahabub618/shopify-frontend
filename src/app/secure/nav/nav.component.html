@@ -26,15 +26,15 @@
         </div>
       </div>
       <div class="right-buttons">
-        <div class="menu-bar" [ngStyle]="{'width': user ? 'auto' : '65px'}">
+        <div class="menu-bar" [ngStyle]="{'width': userName ? 'auto' : '65px'}">
           <img src="assets/icon/profile.svg">
-          <span *ngIf="user" class="truncate-text">{{user.firstName}}</span>
-          <div *ngIf="user" class="dropdown-menu">
+          <span *ngIf="userName" class="truncate-text">{{userName}}</span>
+          <div *ngIf="userName" class="dropdown-menu">
             <ul>
               <li><i class='bx bxs-user'></i>My profile</li>
               <li><i class='bx bx-cart-download'></i>Orders</li>
               <li><i class='bx bx-list-ul' ></i>Wishlist</li>
-              <li><i class='bx bx-log-out' ></i>Sign Out</li>
+              <li (click)="logout()"><i class='bx bx-log-out' ></i>Sign Out</li>
             </ul>
           </div>
         </div>
