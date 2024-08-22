@@ -38,10 +38,15 @@ export class LoginComponent implements OnInit {
     }
     this.showProgress = true;
     if (this.emailID && this.password) {
-      this.authService.Login(this.emailID, this.password).subscribe( (userInfo: User) => {
-        this.setUserInfoInStorage(userInfo);
-        this.router.navigate(['/']);
-      });
+      this.authService.login(this.emailID, this.password)
+        .then((user: any) => {
+          this.setUserInfoInStorage(user);
+          this.router.navigate(['/']);
+        })
+        .catch((error) => {
+          console.error(error);
+          this.showProgress = false;
+        })
     }
     else {
       this.showProgress = false;

@@ -10,7 +10,7 @@ import { User } from 'src/app/interfaces/user';
 })
 export class AuthService {
 
-  apiUrl = `${environment.apiUrl}/api`;
+  apiUrl = `${environment.apiUrl}`;
   private useSessionStorage: boolean = false;
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
@@ -65,21 +65,12 @@ export class AuthService {
     sessionStorage.clear();
   }
 
-  public Login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/ambassador/login`, { email, password })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          return this.http.post<User>(`${this.apiUrl}/admin/login`, { email, password });
-        } else {
-          return throwError(() => error);
-        }
-      }));
+  public login(email: string, password: string){
+    return this.http.post(`${this.apiUrl}/login`, { email, password}).toPromise();
   }
 
-  public register(firstName: string, lastName: string, email: string, password: string, confirmPassword: string, admin?:boolean) {
-    const role = admin ? 'admin' : 'ambassador';
-    return this.http.post(`${this.apiUrl}/${role}/register`, {
+  public register(firstName: string, lastName: string, email: string, password: string, confirmPassword: string) {
+    return this.http.post(`${this.apiUrl}/register`, {
       firstName: firstName,
       lastName: lastName,
       email: email,

@@ -44,7 +44,8 @@ export class RegisterComponent implements OnInit{
         .then((res) => {
           this.router.navigate(['/login']);
         }).catch((error) => {
-          console.log(error);
+          this.showProgress = false;
+          console.error(error);
       })
     }
     else {
