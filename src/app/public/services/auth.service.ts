@@ -66,11 +66,11 @@ export class AuthService {
   }
 
   public Login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/ambassador/login`, { email, password }, {withCredentials: true})
+    return this.http.post<User>(`${this.apiUrl}/ambassador/login`, { email, password })
       .pipe(
         catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          return this.http.post<User>(`${this.apiUrl}/admin/login`, { email, password }, {withCredentials: true});
+          return this.http.post<User>(`${this.apiUrl}/admin/login`, { email, password });
         } else {
           return throwError(() => error);
         }
